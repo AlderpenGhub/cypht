@@ -87,9 +87,15 @@ services:
 networks:
   cypht-frontend:
     name: cypht-frontend
+    ipam:
+      config:
+        - subnet: 10.250.93.0/24
   cypht-backend:
     name: cypht-backend
     internal: true
+    ipam:
+      config:
+        - subnet: 10.250.94.0/24
 
 volumes:
   cypht-db-data:
