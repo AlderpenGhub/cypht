@@ -1,0 +1,27 @@
+https://mail.alderpen.lan {
+    @winsandbox remote_ip 192.168.40.75
+
+    handle @winsandbox {
+        reverse_proxy http://192.168.30.67:8093 {
+            header_up Host {http.request.host}
+            header_up X-Forwarded-Proto {http.request.scheme}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Real-IP {remote_host}
+        }
+    }
+
+    handle {
+        root * /var/www/mail-restricted
+        file_server
+    }
+
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "no-referrer"
+        Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'"
+    }
+
+    tls internal
+}
