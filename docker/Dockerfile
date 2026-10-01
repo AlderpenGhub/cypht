@@ -2,6 +2,8 @@ FROM php:8.3-fpm-bookworm
 
 WORKDIR /usr/local/share/cypht
 
+ARG PHP_BUILD_JOBS=2
+
 ENV DEBIAN_FRONTEND=noninteractive \
     COMPOSER_CACHE_DIR=/tmp/composer_cache \
     COMPOSER_HOME=/tmp/composer_home
@@ -23,7 +25,7 @@ RUN set -eux \
         ca-certificates \
         curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
+    && docker-php-ext-install -j${PHP_BUILD_JOBS} \
         session \
         fileinfo \
         dom \

@@ -10,6 +10,8 @@ commit `e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1`.
 - The initial stack contains no AI worker, Redis, broker, or vector database.
 - Runtime credentials belong only in `.env` on DOCKER-VM. Never commit `.env`.
 - The combined container memory ceiling is 1.25 GiB.
+- Source builds compile PHP extensions with at most two parallel jobs to avoid
+  exhausting the already busy VM's memory and swap.
 
 ## Deployment Directory
 
