@@ -33,12 +33,7 @@ services:
         max-file: "3"
 
   cypht-alderpen:
-    build:
-      context: ../..
-      dockerfile: docker/Dockerfile
-      args:
-        PHP_BUILD_JOBS: 2
-    image: alderpen/cypht-ai-email:e6b71bf0f98e
+    image: cypht/cypht:2.12.2
     container_name: cypht-alderpen
     restart: unless-stopped
     depends_on:
@@ -86,7 +81,7 @@ services:
         max-size: 10m
         max-file: "3"
     labels:
-      org.opencontainers.image.revision: e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1
+      org.opencontainers.image.version: 2.12.2
       alderpen.role: restricted-mail-client
 
 networks:

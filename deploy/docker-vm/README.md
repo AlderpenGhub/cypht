@@ -1,7 +1,13 @@
 # DOCKER-VM Deployment
 
-This profile deploys the vanilla Cypht pilot from the pinned Alderpen fork
-commit `e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1`.
+The default profile deploys the vanilla pilot with the pinned official Cypht
+`2.12.2` image. This avoids compiling PHP on the busy production VM before the
+mail workflow has been proven.
+
+`compose.build.yaml` switches the Cypht service to an image built from the
+pinned Alderpen fork commit
+`e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1`. Use that override only when the
+custom module work begins.
 
 ## Boundaries
 
@@ -10,8 +16,8 @@ commit `e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1`.
 - The initial stack contains no AI worker, Redis, broker, or vector database.
 - Runtime credentials belong only in `.env` on DOCKER-VM. Never commit `.env`.
 - The combined container memory ceiling is 1.25 GiB.
-- Source builds compile PHP extensions with at most two parallel jobs to avoid
-  exhausting the already busy VM's memory and swap.
+- Custom source builds compile PHP extensions with at most two parallel jobs
+  to avoid exhausting the already busy VM's memory and swap.
 
 ## Deployment Directory
 
@@ -26,6 +32,18 @@ checked out there on branch `alderpen-email-ai`; this compose file is run from
 3. Set `.env` permissions to `0600`.
 4. Run `docker compose config --quiet` from this directory.
 5. Confirm port `8093` remains unused.
+
+Start the vanilla pilot with:
+
+```bash
+docker compose up -d
+```
+
+Later, build the custom fork with:
+
+```bash
+docker compose -f compose.yaml -f compose.build.yaml up -d --build
+```
 
 Do not add Gmail or Hostinger accounts until Caddy access restrictions, HTTPS,
 and the vanilla acceptance checks are in place.
