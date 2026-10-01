@@ -1,0 +1,29 @@
+# DOCKER-VM Deployment
+
+This profile deploys the vanilla Cypht pilot from the pinned Alderpen fork
+commit `e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1`.
+
+## Boundaries
+
+- Cypht listens on `192.168.30.67:8093` for CADDY-VM to proxy.
+- MariaDB is available only on the private `cypht-backend` network.
+- The initial stack contains no AI worker, Redis, broker, or vector database.
+- Runtime credentials belong only in `.env` on DOCKER-VM. Never commit `.env`.
+- The combined container memory ceiling is 1.25 GiB.
+
+## Deployment Directory
+
+Use `/home/gbensonii/docker/cypht-ai-email` on DOCKER-VM. The repository is
+checked out there on branch `alderpen-email-ai`; this compose file is run from
+`deploy/docker-vm` within that checkout.
+
+## Preflight
+
+1. Copy `.env.example` to `.env` on DOCKER-VM.
+2. Replace every `CHANGE_ME` value with a unique generated credential.
+3. Set `.env` permissions to `0600`.
+4. Run `docker compose config --quiet` from this directory.
+5. Confirm port `8093` remains unused.
+
+Do not add Gmail or Hostinger accounts until Caddy access restrictions, HTTPS,
+and the vanilla acceptance checks are in place.

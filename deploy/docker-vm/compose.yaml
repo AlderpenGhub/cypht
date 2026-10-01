@@ -1,0 +1,105 @@
+name: cypht-ai-email
+
+services:
+  cypht-db:
+    image: mariadb:11
+    container_name: cypht-db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - cypht-db-data:/var/lib/mysql
+    networks:
+      - cypht-backend
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u root -p$${MARIADB_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    mem_limit: 512m
+    cpus: 0.75
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  cypht-alderpen:
+    build:
+      context: ../..
+      dockerfile: docker/Dockerfile
+    image: alderpen/cypht-ai-email:e6b71bf0f98e
+    container_name: cypht-alderpen
+    restart: unless-stopped
+    depends_on:
+      cypht-db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      AUTH_TYPE: DB
+      AUTH_USERNAME: ${CYPHT_ADMIN_USERNAME}
+      AUTH_PASSWORD: ${CYPHT_ADMIN_PASSWORD}
+      DB_CONNECTION_TYPE: host
+      DB_DRIVER: mysql
+      DB_HOST: cypht-db
+      DB_NAME: ${MARIADB_DATABASE}
+      DB_USER: ${MARIADB_USER}
+      DB_PASS: ${MARIADB_PASSWORD}
+      SESSION_TYPE: DB
+      USER_CONFIG_TYPE: DB
+      COOKIE_DOMAIN: mail.alderpen.lan
+      GMAIL_CLIENT_URI: https://mail.alderpen.lan/?page=home
+      DEFAULT_SETTING_THEME: darkly
+      ALLOW_LONG_SESSION: "false"
+      DISABLE_IP_CHECK: "false"
+      DISABLE_ORIGIN_CHECK: "false"
+      DISABLE_FINGERPRINT: "false"
+      ENABLE_DEBUG: "false"
+    ports:
+      - "192.168.30.67:${CYPHT_HOST_PORT:-8093}:80"
+    volumes:
+      - cypht-attachments:/var/lib/hm3/attachments
+      - cypht-app-data:/var/lib/hm3/app_data
+      - cypht-fonts:/usr/local/share/cypht/site/fonts
+      - ./php-production.ini:/usr/local/etc/php/conf.d/zz-alderpen-production.ini:ro
+    networks:
+      - cypht-frontend
+      - cypht-backend
+    mem_limit: 768m
+    cpus: 1.0
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    labels:
+      org.opencontainers.image.revision: e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1
+      alderpen.role: restricted-mail-client
+
+networks:
+  cypht-frontend:
+    name: cypht-frontend
+  cypht-backend:
+    name: cypht-backend
+    internal: true
+
+volumes:
+  cypht-db-data:
+    name: cypht-db-data
+  cypht-attachments:
+    name: cypht-attachments
+  cypht-app-data:
+    name: cypht-app-data
+  cypht-fonts:
+    name: cypht-fonts

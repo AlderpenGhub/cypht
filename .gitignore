@@ -9,6 +9,7 @@
 /tests/selenium/remote_creds.py
 *.pyc
 /.env
+deploy/docker-vm/.env
 /.env.*
 !.env.example
 !.env.test.example
