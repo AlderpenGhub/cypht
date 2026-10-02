@@ -6,7 +6,7 @@ mail workflow has been proven.
 
 `compose.build.yaml` switches the Cypht service to an image built from the
 pinned Alderpen fork commit
-`5f6945a5236c0ca76172d6910ef2d4499b1f21ef`. Use that override only when the
+`ebddc52bee261b1f117ed96b0a22d96ecccb1f09`. Use that override only when the
 custom module work begins.
 
 The custom profile also appends the `alderpen_ui` module. This module adapts
