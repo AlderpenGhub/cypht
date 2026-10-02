@@ -368,6 +368,30 @@ textarea:focus {
   color: var(--alderpen-accent-hover);
 }
 
+/* The folders module sets light backgrounds inline for these notices. */
+.special-folder-status-box {
+  background: #302b18 !important;
+  border-color: #756422 !important;
+  color: #f4e7ad !important;
+}
+
+.special-folder-helper-box {
+  background: var(--alderpen-surface-raised) !important;
+  border-color: var(--alderpen-border) !important;
+  color: var(--alderpen-text) !important;
+}
+
+.special-folder-status-box .btn-close,
+.special-folder-helper-box .btn-close {
+  filter: invert(1) grayscale(1);
+  opacity: 0.65 !important;
+}
+
+.special-folder-status-box .btn-close:hover,
+.special-folder-helper-box .btn-close:hover {
+  opacity: 1 !important;
+}
+
 .unsaved_icon {
   position: fixed;
   top: 14px;
