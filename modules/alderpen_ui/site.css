@@ -135,6 +135,12 @@ main {
   text-decoration: none;
 }
 
+li.selected_menu:not(.menu_search) a,
+li.selected_menu:not(.menu_search) a:hover,
+li.selected_menu:not(.menu_search) a i.bi {
+  color: var(--alderpen-accent-hover) !important;
+}
+
 .menu-icon {
   width: 22px;
   margin-right: 8px;
