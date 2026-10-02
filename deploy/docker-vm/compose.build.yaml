@@ -5,8 +5,8 @@ services:
       dockerfile: docker/Dockerfile
       args:
         PHP_BUILD_JOBS: 2
-    image: alderpen/cypht-ai-email:e6b71bf0f98e
+    image: alderpen/cypht-ai-email:32d2b266064f
     environment:
       CYPHT_MODULES: "${CYPHT_MODULES},alderpen_ui"
     labels:
-      org.opencontainers.image.revision: e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1
+      org.opencontainers.image.revision: 32d2b266064f08366db906d1d72fd6cb7985765b
