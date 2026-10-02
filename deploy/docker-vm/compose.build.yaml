@@ -6,5 +6,7 @@ services:
       args:
         PHP_BUILD_JOBS: 2
     image: alderpen/cypht-ai-email:e6b71bf0f98e
+    environment:
+      CYPHT_MODULES: "${CYPHT_MODULES},alderpen_ui"
     labels:
       org.opencontainers.image.revision: e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1

@@ -9,6 +9,10 @@ pinned Alderpen fork commit
 `e6b71bf0f98eb63d5fb335ed3e10fabef45eb0c1`. Use that override only when the
 custom module work begins.
 
+The custom profile also appends the `alderpen_ui` module. This module adapts
+the live Cypht markup to the sanitized refreshed-UI reference while leaving
+mail, account, and authentication behavior in the upstream modules.
+
 ## Boundaries
 
 - Cypht listens on `192.168.30.67:8093` for CADDY-VM to proxy.
